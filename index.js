@@ -10,12 +10,14 @@ var app = express();
 
 var tasks = []
 
+var surrogatekey = 1;
+
 app.get("/", (req, res, next) => {
     res.json("{ 'message': 'Tasks server online'}");
 });
 
 app.post("/tasks", jsonParser, (req, res, next) => {
-    req.body.id = tasks.length + 1;
+    req.body.id = surrogatekey++;
     tasks.push(req.body);
     res.send("OK");
 });
@@ -27,3 +29,11 @@ app.get("/tasks", (req, res, next) => {
 app.listen(3000, () => {
     console.log("Servidor HTTP funcionando");
 });
+
+
+// buscar
+app.get("/task/:taskId", function(req, res){
+    res.send("taskID is set to" + req.params.taskId);
+});
+
+
