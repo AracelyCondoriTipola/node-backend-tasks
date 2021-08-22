@@ -43,7 +43,12 @@ app.get("/tasks/:taskId", (req, res, next) => {
 app.delete("/tasks/:taskId" , jsonParser, (req, res, next) => {
     const id = req.params.taskId;
     const i = tasks.findIndex(x => x.id == id );
-    tasks.splice(i,1);
-    res.send("delete " + req.params.taskId);
+    console.log(i)
+    if (i>=0){
+        tasks.splice(i,1);
+        res.send("delete " + req.params.taskId);
+    } else
+        res.send("Not found")
+    
     
 });
