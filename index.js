@@ -16,6 +16,7 @@ app.get("/", (req, res, next) => {
 // Crear una nueva tarea
 app.post("/tasks", jsonParser, (req, res, next) => {
     req.body.id = surrogatekey++;
+    req.body.state = "pending";
     tasks.push(req.body);
     res.send("OK");
 });
@@ -52,3 +53,34 @@ app.delete("/tasks/:taskId" , jsonParser, (req, res, next) => {
     
     
 });
+
+//editar
+app.put("/tasks/:idtask", jsonParser, (req, res, next) => {
+    console.log(req.query.state);
+    console.log(req.idtask);
+    if(req.query.state != null){
+        const id = req.params.idtask;
+        for(i = 0; i < tasks.length; i++){
+            if(tasks[i].id == id){
+                tasks[i].state = req.query.state;
+                res.send("OK");
+            }
+        }
+        res.send("No se encontro la tarea");
+    }
+    if(req.body != null){
+        const id = req.params.idtask;
+        for(var i = 0; i < tasks.length; i++){
+            if(tasks[i].id == id){
+                req.body.id = tasks[i].id;
+                req.body.state = tasks[i].state;
+                tasks[i] = req.body;
+                res.send("OK");
+            }
+        }
+        
+        res.send("No se encontro la tarea");
+    }
+    
+});
+
